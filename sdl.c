@@ -226,5 +226,6 @@ main(int argc, char *argv[])
 	for (;;) {
 		gui_render();
 		handle_input();
+		SDL_Delay(1000/30);
 	}
 }

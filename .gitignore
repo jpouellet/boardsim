@@ -1,3 +1,5 @@
 *.o
 *.vvp
 *.vpi
+sdl
+*.swp

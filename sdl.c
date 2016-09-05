@@ -9,6 +9,8 @@ SDL_Window *window;
 SDL_Surface *screen;
 SDL_Surface *board_texture;
 SDL_Surface *led_texture;
+SDL_Surface *one_texture;
+SDL_Surface *zero_texture;
 
 #define lin_scale(start, stop, count, idx) (((stop)-(start))*(idx)/((count)-1)+(start))
 
@@ -174,6 +176,8 @@ gui_init(void)
 
 	board_texture = xload_img("DE2.png");
 	led_texture = xload_img("led.png");
+	zero_texture = xload_img("0.png");
+	one_texture = xload_img("1.png");
 
 	window = SDL_CreateWindow("board", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, board_texture->w, board_texture->h, SDL_WINDOW_SHOWN);
 	if (window == NULL)
@@ -185,25 +189,38 @@ gui_init(void)
 }
 
 void
+blit_centered(SDL_Surface *texture, int x, int y)
+{
+	SDL_Rect dr;
+	dr.w = texture->w;
+	dr.h = texture->h;
+
+	dr.x = x - dr.w/2;
+	dr.y = y - dr.h/2;
+
+	if (SDL_BlitSurface(texture, NULL, screen, &dr) < 0)
+		err(1, "SDL_BlitSurface(texture): %s", SDL_GetError());
+}
+
+void
 draw_leds(void)
 {
 	size_t i;
-	for (i = 0; i < sizeof(red_leds) / sizeof(red_leds[0]); i++) {
-		if (!red_leds[i].state)
-			continue;
+	for (i = 0; i < sizeof(red_leds) / sizeof(red_leds[0]); i++)
+		if (red_leds[i].state) // XXX TODO: variable opacity?
+			blit_centered(led_texture, red_leds[i].x, red_leds[i].y);
+}
 
-		// XXX TODO: variable opacity?
+void
+draw_input_states(void)
+{
+	size_t i;
 
-		SDL_Rect dr;
-		dr.w = led_texture->w;
-		dr.h = led_texture->h;
+	for (i = 0; i < sizeof(buttons) / sizeof(buttons[0]); i++)
+		blit_centered(buttons[i].state ? one_texture : zero_texture, buttons[i].x, buttons[i].y);
 
-		dr.x = red_leds[i].x - dr.w/2;
-		dr.y = red_leds[i].y - dr.h/2;
-
-		if (SDL_BlitSurface(led_texture, NULL, screen, &dr) < 0)
-			err(1, "SDL_BlitSurface(led_texture): %s", SDL_GetError());
-	}
+	for (i = 0; i < sizeof(switches) / sizeof(switches[0]); i++)
+		blit_centered(switches[i].state ? one_texture : zero_texture, switches[i].x, switches[i].y);
 }
 
 void
@@ -213,6 +230,7 @@ gui_render(void)
 		err(1, "SDL_BlitSurface(board_texture): %s", SDL_GetError());
 
 	draw_leds();
+	draw_input_states();
 
 	if (SDL_UpdateWindowSurface(window) < 0)
 		err(1, "SDL_UpdateWindowSurface: %s", SDL_GetError());

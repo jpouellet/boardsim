@@ -3,3 +3,4 @@
 *.vpi
 sdl
 *.swp
+top.v

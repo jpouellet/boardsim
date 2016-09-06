@@ -1,4 +1,5 @@
 #include <err.h>
+#include <stdio.h>
 #include <vpi_user.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -323,6 +324,14 @@ handle_input(void)
 
 		case SDL_KEYDOWN:
 		case SDL_KEYUP: {
+			if (e.key.keysym.sym == SDLK_F12) {
+				static unsigned long screencap_no;
+				char buf[64];
+				snprintf(buf, sizeof(buf), "board-%lu.bmp", screencap_no++);
+				SDL_SaveBMP(screen, buf);
+				break;
+			}
+
 			struct board_button *b = find_button(e.key.keysym.sym);
 			if (b != NULL)
 				handle_button(b, e.type == SDL_KEYDOWN ? DOWN : UP);

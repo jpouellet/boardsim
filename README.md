@@ -1,13 +1,13 @@
-# [DE2-114][DE2] board simulator using [SDL][SDL] for the UI and [Icarus Verilog][iverilog] through [VPI][VPI] as the simulation backend.
+## [DE2-114][DE2] board simulator using [SDL][SDL] for the UI and [Icarus Verilog][iverilog] through [VPI][VPI] as the simulation backend.
 
 [DE2]: http://de2-115.terasic.com/
 [SDL]: https://www.libsdl.org/
 [iverilog]: http://iverilog.icarus.com/
 [VPI]: https://en.wikipedia.org/wiki/Verilog_Procedural_Interface
 
-## Installation
+### Installation
 
-### Dependencies
+#### Dependencies
 
 You need SDL2, SDL2_image, and icarus verilog.
 
@@ -17,7 +17,7 @@ To install those on OS X with MacPorts:
 $ sudo port install iverilog libsdl2 libsdl2_image
 ```
 
-### Building
+#### Building
 
 ```
 $ make
@@ -26,7 +26,7 @@ Compiling boardsim.c...
 Making DE2.vpi from  boardsim.o...
 ```
 
-## Usage
+### Usage
 
 A simple module that sets LEDs as a function of button & switch states:
 
@@ -54,25 +54,25 @@ Click the switches to change them, and press Q, W, E, & R on the keyboard to con
 
 ![io_test simulation gif](io_test.gif)
 
-# Resources
+## Resources
 
-## VPI
-### Introductory
+### VPI
+#### Introductory
 - [ASIC World PLI guide](http://www.asic-world.com/verilog/pli.html)
 - [Use with Verilator](http://www.veripool.org/projects/verilator/wiki/manual-verilator#VERIFICATION-PROCEDURAL-INTERFACE-VPI)
 - [Use with Icarus](http://iverilog.wikia.com/wiki/Using_VPI)
 
-### Reference
+#### Reference
 - [IEEE 1364-2005 (the Verilog standard)](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1620780) &mdash; sections 26 & 27 define VPI, Annex G is the normative vpi_user.h
 - [Verilator's vpi_user.h](https://github.com/grg/verilator/blob/master/include/vltstd/vpi_user.h)
 - [Icarus' vpi_user.h](https://github.com/steveicarus/iverilog/blob/master/vpi_user.h)
 - [The Verilog PLI Handbook](https://books.google.com/books?id=LGTSBwAAQBAJ) (book)
 - [Principles of Verilog PLI](https://books.google.com/books?id=VKXfBwAAQBAJ) (book)
 
-## SDL
-### Introductory
+### SDL
+#### Introductory
 - [Lazy Foo's SDL2 tutorial](http://lazyfoo.net/tutorials/SDL/)
 
-### Reference
+#### Reference
 - [Base SDL2 API reference](https://wiki.libsdl.org/CategoryAPI)
 - [SDL_image API reference](https://www.libsdl.org/projects/SDL_image/docs/SDL_image.html)

@@ -58,8 +58,7 @@ Click the switches to change them, and press Q, W, E, & R on the keyboard to con
 
 ## VPI
 ### Introductory
-- [Gentle Wikipedia introduction](https://en.wikipedia.org/wiki/Verilog_Procedural_Interface)
-- [ASIC World PLI guide](http://www.asic-world.com/verilog/pli.html) (quite good)
+- [ASIC World PLI guide](http://www.asic-world.com/verilog/pli.html)
 - [Use with Verilator](http://www.veripool.org/projects/verilator/wiki/manual-verilator#VERIFICATION-PROCEDURAL-INTERFACE-VPI)
 - [Use with Icarus](http://iverilog.wikia.com/wiki/Using_VPI)
 

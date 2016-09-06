@@ -144,7 +144,11 @@ DE2_leds_calltf(PLI_BYTE8 *user_data)
 	aval = val.value.vector[0].aval;
 	bval = val.value.vector[0].bval;
 
-	vpi_printf("%x %x\n", aval, bval);
+	size_t i;
+	for (i = 0; i < sizeof(red_leds) / sizeof(red_leds[0]); i++) {
+		PLI_INT32 mask = (1 << (N_LED - 1)) >> i;
+		red_leds[i].state = ((aval & mask) && !(bval & mask)) ? ON : OFF;
+	}
 
 	return 0;
 }
@@ -178,8 +182,14 @@ DE2_switches_calltf(PLI_BYTE8 *user_data)
 
 	val.format = vpiVectorVal;
 	val.value.vector = &vec0;
-	vec0.aval = (PLI_INT32)(((1<<N_SW)-1) & 0x55555555);
+	vec0.aval = 0;
 	vec0.bval = 0;
+
+	size_t i;
+	for (i = 0; i < N_SW; i++)
+		if (switches[i].state)
+			vec0.aval |= (1 << (N_SW - 1)) >> i;
+
 	vpi_put_value(systf, &val, NULL, vpiNoDelay);
 
 	return 0;
@@ -220,8 +230,14 @@ DE2_buttons_calltf(PLI_BYTE8 *user_data)
 
 	val.format = vpiVectorVal;
 	val.value.vector = &vec0;
-	vec0.aval = (PLI_INT32)(((1<<N_BTN)-1) & 0xAAAAAAAA);
+	vec0.aval = 0;
 	vec0.bval = 0;
+
+	size_t i;
+	for (i = 0; i < N_BTN; i++)
+		if (buttons[i].state)
+			vec0.aval |= (1 << (N_BTN - 1)) >> i;
+
 	vpi_put_value(systf, &val, NULL, vpiNoDelay);
 
 	return 0;
@@ -262,15 +278,12 @@ static void
 handle_button(struct board_button *b, int updown)
 {
 	b->state = updown;
-	//vpi_printf("button %d -> %d\n", b->vecidx, b->state);
 }
 
 static void
 handle_switch(struct board_switch *sw)
 {
 	sw->state = !sw->state;
-	//vpi_printf("switch %d -> %d\n", sw->vecidx, sw->state);
-	red_leds[sw->vecidx].state = sw->state;
 }
 
 static struct board_switch *

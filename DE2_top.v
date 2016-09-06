@@ -15,8 +15,10 @@ module DE2_top();
 
 	initial forever begin
 		#50;
+		$DE2_handle_input;
 		switches = $DE2_switches;
 		buttons = $DE2_buttons;
 		$DE2_leds(leds);
+		$DE2_render;
 	end
 endmodule

@@ -1,10 +1,10 @@
-CFLAGS = -Wall -O $(CFLAGS_$@)
-LDFLAGS = -Wall -O $(LDFLAGS_$@)
-VPI_CFLAGS := $(shell iverilog-vpi --cflags)
-CFLAGS_DE2.o = $(VPI_CFLAGS)
+CPPFLAGS=-I/opt/local/include
+CFLAGS=-Wall $(CPPFLAGS)
+LDADD=-lSDL2 -lSDL2_image
+LDFLAGS=-L/opt/local/lib $(LDADD)
 
-DE2.vpi: DE2.o
-	iverilog-vpi $^
+DE2.vpi: boardsim.c
+	iverilog-vpi --name=DE2 $(CFLAGS) $(LDFLAGS) $(LIBS) $^
 
 clean:
 	rm -f *.o *.vpi *.vvp

@@ -5,6 +5,8 @@
 [iverilog]: http://iverilog.icarus.com/
 [VPI]: https://en.wikipedia.org/wiki/Verilog_Procedural_Interface
 
+Written in haste, caveat emptor.
+
 ### Installation
 
 #### Dependencies
